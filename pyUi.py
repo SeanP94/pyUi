@@ -1,5 +1,8 @@
 import pygame as pg
+import sys 
+sys.path.insert(1, '../src')
 
+import colors as cls
 
 SCREEN_WIDTH = 400
 SCREEN_HEIGHT = 400
@@ -17,3 +20,6 @@ while RUN_FLAG:
     clock.tick(60) # Cap 60FPS
 
 
+'''
+We intitially want to create a grid... and 
+'''
