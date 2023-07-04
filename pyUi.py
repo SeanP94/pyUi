@@ -8,7 +8,7 @@ sys.path.insert(1, cpath+'/logger/')
 from errLog import logError
 import colors as cls
 
-
+# Temp Globals
 SCREEN_WIDTH = 400
 SCREEN_HEIGHT = 400
 
@@ -19,11 +19,14 @@ screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 clock = pg.time.Clock()
 RUN_FLAG = True
 
-while RUN_FLAG:
-    
-    clock.tick(60) # Cap 60FPS
+def gameLoop():
+    '''
+    Main Game looop for this test application.
+    '''
+    while RUN_FLAG:
+        clock.tick(60) # Cap 60FPS
 
 
-'''
-We intitially want to create a grid... and 
-'''
+# This file wont always be main. But it will run this as a test.
+if __name__ == '__main__':
+    gameLoop()
