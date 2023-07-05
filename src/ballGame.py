@@ -33,9 +33,9 @@ class BallRand():
         surface.blit(self.ballImage, self.ballRect)
 
 class BallDrag():
-    def __init__(self, cpath, ballSpeed=3):    
+    def __init__(self, cpath, ballSpeed=2):    
         self.BALLH = 100
-        self.ballSpeed = 3
+        self.speed = ballSpeed
         self.MAX_X = g.SCREEN_HEIGHT - self.BALLH
         self.MAX_Y = g.SCREEN_WIDTH - self.BALLH
 
@@ -51,39 +51,43 @@ class BallDrag():
         self.ballRect.top = random.randrange(self.MAX_Y)
         self.ballRect.left = random.randrange(self.MAX_X)
 
-    def dragBall(self, posTuple, clicked=False):
+    def dragBall(self, posTuple):
         '''
         We want to start moving the ball towards this location as we drag it.
         Thats the goal of this class
 
-        We want to I think Normalize the data to the Mouse button being 0,0
-
+        Since there is the issue that getting the 0's just right for the area.
+        We want to make sure the value is within a radius of 3
         '''
-        if clicked:
-            return
-        posx, posy = posTuple
-        ballx, bally = self.ballRect.center
-        print(posx, posy)
-        print(posx - ballx, posy - bally)
-        
-        print(ballx, bally)
+
         moveList = []
+        r = 3
+        # Iterate over both tuples.
+
         for pos, ball in zip(posTuple, self.ballRect.center):
-            i = 1 if (ball - pos) < 0 else -1
-            moveList.append(i * min(self.ballSpeed, abs((ball - pos) - 1)))
-            print(ball, pos, ball - pos)
+            if (ball - pos) < r and (ball - pos) > -r:
+                i = 0
+            else:
+                i = 1 if (ball - pos) < 0 else -1
+            moveList.append(i)
         print(moveList)
-        # Normalize logic
+
+
+        # Normalize logic : Move this out later
         def normalize(moveList):
-            if (moveList[0] > 1 or moveList[0] < -1) and (moveList[1] > 1 or moveList[1] < -1):
-                v = abs(math.sqrt(moveList[0] ** 2 + moveList[1] ** 2))        
-                moveList[0] /= v
-                moveList[1] /= v
-            
+            if 0 not in moveList: 
+                mag = abs(math.sqrt(moveList[0] ** 2 + moveList[1] ** 2))        
+                moveList[0] = (moveList[0] * (1 / mag))
+                moveList[1] = (moveList[1] * (1 / mag))#/= mag
         normalize(moveList)
+        
+        moveList[0] *= self.speed
+        moveList[1] *= self.speed
         print(moveList)
-        self.ballRect.left += moveList[0]
-        self.ballRect.top += moveList[1]
+        
+        print(moveList) 
+        self.ballRect.left += moveList[0]# * self.speed
+        self.ballRect.top += moveList[1]# * self.speed
 
     def updateBall(self, event : pg.event.Event):
         """
@@ -92,7 +96,7 @@ class BallDrag():
         """
         print(pg.mouse.get_pos())
         if event.type == pg.MOUSEBUTTONDOWN:
-            self.dragBall(pg.mouse.get_pos(), True)
+            self.dragBall(pg.mouse.get_pos())
         # if event.type == pg.MOUSEBUTTONUP:
         #     self.dragBall(event.pos, False)
         
