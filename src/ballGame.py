@@ -1,7 +1,7 @@
 import pygame as pg
 import random
 import pygameglobals as g
-
+import math
 class BallRand():
     def __init__(self, cpath):    
         self.BALLH = 100
@@ -70,7 +70,17 @@ class BallDrag():
         moveList = []
         for pos, ball in zip(posTuple, self.ballRect.center):
             i = 1 if (ball - pos) < 0 else -1
-            moveList.append(i * min(self.ballSpeed, abs(ball - pos)))
+            moveList.append(i * min(self.ballSpeed, abs((ball - pos) - 1)))
+            print(ball, pos, ball - pos)
+        print(moveList)
+        # Normalize logic
+        def normalize(moveList):
+            if (moveList[0] > 1 or moveList[0] < -1) and (moveList[1] > 1 or moveList[1] < -1):
+                v = abs(math.sqrt(moveList[0] ** 2 + moveList[1] ** 2))        
+                moveList[0] /= v
+                moveList[1] /= v
+            
+        normalize(moveList)
         print(moveList)
         self.ballRect.left += moveList[0]
         self.ballRect.top += moveList[1]

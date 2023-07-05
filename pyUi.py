@@ -42,7 +42,7 @@ def eventHandler():
         ball.updateBall(event)
 def update():
     '''Placeholder for now, does nothing'''
-    pass
+    ball.dragBall(pg.mouse.get_pos())
 
 
 def draw():
