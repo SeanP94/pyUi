@@ -10,41 +10,26 @@ import colors as cls
 from errLog import logError
 
 import random
+import pygameglobals as g
+from ballGame import Ball
 
-# Temp Globals
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 800
-FPS = 60 
 pg.init()
- 
-# # # # # X
-# Temp    #
-# Globals # 
-# # # # # #
-BALLH = 100
-
-MAX_X = SCREEN_HEIGHT - BALLH
-MAX_Y = SCREEN_WIDTH - BALLH
-
-ballx = random.randrange(MAX_X)
-bally = random.randrange(MAX_Y)
-ballImage = pg.image.load(cpath / 'images/ball.png')
-ballRect = pg.Rect(ballx, bally, BALLH, BALLH)
-
-def resetBall():
-    global ballx, bally, ballRect
-    ballx = random.randrange(MAX_X)
-    bally = random.randrange(MAX_Y)
-    ballRect = pg.Rect(ballx, bally, BALLH, BALLH)
-    
-
-# # # # # X
-
-
 # Get the screen Surface and the clock to limit fps.
-window = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+window = pg.display.set_mode((g.SCREEN_WIDTH, g.SCREEN_HEIGHT))
 clock = pg.time.Clock()
-RUN_FLAG = True
+ball = Ball(cpath=cpath)
+
+# # # # # # X
+# Temp      #
+# Globals 2 # 
+# # # # # # #
+
+
+# Ball Logic
+
+
+# # # # # X
+
 
 def eventHandler():
     for event in pg.event.get():
@@ -62,9 +47,8 @@ def eventHandler():
 
         
         if event.type == pg.MOUSEBUTTONDOWN:
-            if ballRect.collidepoint(event.pos):
-                print(f"{event.pos} : Booped the ball")
-                resetBall()
+            ball.updateBall(event)
+
 def update():
     '''Placeholder for now, does nothing'''
     pass
@@ -73,20 +57,20 @@ def update():
 def draw():
     # LIGHT_GRAY is essentially our "clear" the screen color.
     window.fill(cls.LIGHT_GRAY)
-    window.blit(ballImage, (ballx,bally))
+    ball.drawBall(window)
 
 
 def gameLoop():
     '''
     Main Game looop for this test application.
     '''
-    while RUN_FLAG:
+    while g.RUN_FLAG:
         # Handle input
         eventHandler()
         update()
         draw()
         pg.display.update() # Update the window.
-        clock.tick(FPS) # Cap 60FPS
+        clock.tick(g.FPS) # Cap 60FPS
 
 
 
