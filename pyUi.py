@@ -35,10 +35,11 @@ def eventHandler():
             window.fill(cls.LIGHT_GRAY)
 
         
-        if event.type == pg.MOUSEBUTTONDOWN:
-            ball.updateBall(event)
-        if event.type == pg.MOUSEBUTTONUP:
-            ball.updateBall(event)
+        # if event.type == pg.MOUSEBUTTONDOWN:
+        #     ball.updateBall(event, False)
+        # if event.type == pg.MOUSEBUTTONUP:
+        #     ball.updateBall(event)
+        ball.updateBall(event)
 def update():
     '''Placeholder for now, does nothing'''
     pass

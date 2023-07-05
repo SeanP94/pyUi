@@ -51,7 +51,7 @@ class BallDrag():
         self.ballRect.top = random.randrange(self.MAX_Y)
         self.ballRect.left = random.randrange(self.MAX_X)
 
-    def dragBall(self, posTuple):
+    def dragBall(self, posTuple, clicked=False):
         '''
         We want to start moving the ball towards this location as we drag it.
         Thats the goal of this class
@@ -59,25 +59,34 @@ class BallDrag():
         We want to I think Normalize the data to the Mouse button being 0,0
 
         '''
+        if clicked:
+            return
         posx, posy = posTuple
         ballx, bally = self.ballRect.center
         print(posx, posy)
         print(posx - ballx, posy - bally)
+        
+        print(ballx, bally)
         moveList = []
         for pos, ball in zip(posTuple, self.ballRect.center):
-            i = -1 if (pos - ball) < 0 else 1
-            moveList.append(i * min(self.ballSpeed, abs(pos-ball)))
-        self.ballRect.top += moveList[0]
-        self.ballRect.left += moveList[1]
+            i = 1 if (ball - pos) < 0 else -1
+            moveList.append(i * min(self.ballSpeed, abs(ball - pos)))
+        print(moveList)
+        self.ballRect.left += moveList[0]
+        self.ballRect.top += moveList[1]
 
     def updateBall(self, event : pg.event.Event):
         """
         Takes in an event type and if the ball collides with the
         mouse, move it to a random location
         """
-        if self.ballRect.collidepoint(event.pos):
-            print(f"{event.pos} : Grabbed the ball")
-            self.dragBall(event.pos)
+        print(pg.mouse.get_pos())
+        if event.type == pg.MOUSEBUTTONDOWN:
+            self.dragBall(pg.mouse.get_pos(), True)
+        # if event.type == pg.MOUSEBUTTONUP:
+        #     self.dragBall(event.pos, False)
+        
+        self.dragBall(pg.mouse.get_pos())
 
     def drawBall(self, surface : pg.surface.Surface):
         surface.blit(self.ballImage, self.ballRect)
