@@ -11,24 +11,13 @@ from errLog import logError
 
 import random
 import pygameglobals as g
-from ballGame import Ball
+from ballGame import BallDrag as BallGame
 
 pg.init()
 # Get the screen Surface and the clock to limit fps.
 window = pg.display.set_mode((g.SCREEN_WIDTH, g.SCREEN_HEIGHT))
 clock = pg.time.Clock()
-ball = Ball(cpath=cpath)
-
-# # # # # # X
-# Temp      #
-# Globals 2 # 
-# # # # # # #
-
-
-# Ball Logic
-
-
-# # # # # X
+ball = BallGame(cpath=cpath)
 
 
 def eventHandler():
@@ -48,7 +37,8 @@ def eventHandler():
         
         if event.type == pg.MOUSEBUTTONDOWN:
             ball.updateBall(event)
-
+        if event.type == pg.MOUSEBUTTONUP:
+            ball.updateBall(event)
 def update():
     '''Placeholder for now, does nothing'''
     pass
