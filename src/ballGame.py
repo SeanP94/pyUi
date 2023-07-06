@@ -33,7 +33,7 @@ class BallRand():
         surface.blit(self.ballImage, self.ballRect)
 
 class BallDrag():
-    def __init__(self, cpath, ballSpeed=2):    
+    def __init__(self, cpath, ballSpeed=10):    
         self.BALLH = 100
         self.speed = ballSpeed
         self.MAX_X = g.SCREEN_HEIGHT - self.BALLH
@@ -70,24 +70,33 @@ class BallDrag():
             else:
                 i = 1 if (ball - pos) < 0 else -1
             moveList.append(i)
-        print(moveList)
-
 
         # Normalize logic : Move this out later
+        
+        print(moveList)
         def normalize(moveList):
             if 0 not in moveList: 
-                mag = abs(math.sqrt(moveList[0] ** 2 + moveList[1] ** 2))        
-                moveList[0] = (moveList[0] * (1 / mag))
-                moveList[1] = (moveList[1] * (1 / mag))#/= mag
+                #mag = abs(math.sqrt(moveList[0] ** 2 + moveList[1] ** 2))        
+                moveList[0] *= .5
+                moveList[1] *= .5
         normalize(moveList)
         
         moveList[0] *= self.speed
         moveList[1] *= self.speed
         print(moveList)
+        self.ballRect.left += math.floor(moveList[0])# * self.speed
+        self.ballRect.top += math.floor(moveList[1])# * self.speed
         
-        print(moveList) 
-        self.ballRect.left += moveList[0]# * self.speed
-        self.ballRect.top += moveList[1]# * self.speed
+        # Set boundaries
+        if self.ballRect.right > g.SCREEN_WIDTH:
+            self.ballRect.right = g.SCREEN_WIDTH
+        elif self.ballRect.left < 0:
+            self.ballRect.left = 0
+        if self.ballRect.top < 0:
+            self.ballRect.top = 0
+        elif self.ballRect.bottom > g.SCREEN_HEIGHT:
+            self.ballRect.bottom = g.SCREEN_HEIGHT
+
 
     def updateBall(self, event : pg.event.Event):
         """
