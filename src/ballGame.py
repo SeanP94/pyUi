@@ -15,7 +15,6 @@ class BallRand():
         self.ballRect = self.ballImage.get_rect()
         self.resetBall() # Set balls pos
 
-
     def resetBall(self):
         """
         Resets the ball to a random location on the screen.

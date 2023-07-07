@@ -3,6 +3,16 @@ import random
 import math
 import pygameglobals as g
 
+'''
+Space to add tools that I develop for 2D movement.
+
+confineBoundaries : Keeps rect inside screen 
+normalize : if the moveList contains 2 nonzero values it will multiple them by .5 (Not normal Linear Algebra normalization **)
+moveCenterTowardsPoint : Takes a position and moves the rect's CENTER towards the position
+randomPlacement : Takes a rectangle and randomly places it in the screen
+'''
+
+
 def confineBoundaries(rect : pg.rect.Rect):
     '''
     Keeps objects rect within screen bounadires.
@@ -77,3 +87,4 @@ def randomPlacement(rectObj : pg.rect.Rect, maxX : int, maxY : int):
     """
     rectObj.left = random.randrange(maxX)
     rectObj.top = random.randrange(maxY)
+
