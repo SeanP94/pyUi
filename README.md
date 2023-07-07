@@ -27,3 +27,9 @@ saving it for later use so that the code is easily reusable by me.
 This kind of project will be great for GUI work, OOP programming, A* AI for games that I can use later. And building a general good base foundation for building a simple-ish RPG I would EVENTUALLY like to make.  
 
 pyUi will be the library I plan on building out long term to make my life easier for other possible GUI projects in the future, for now it's a playground for me to have fun.
+
+Download this font:
+https://fonts.google.com/specimen/VT323/about
+
+- I'm not sure of the legality of me giving out this .ttf, so please just download it, unzip it and place it in the objs folder :)
+- - I'll try and create a systems folder (soon) so that I can have this set and it can just be easy to change it to sans serif or somethin.

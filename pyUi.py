@@ -14,6 +14,8 @@ import uiobjs as ui
 from ballGame import BallDrag as BallGame # Simple UI test games Im using to find reusable code to build
 from errLog import logError # Logs errors passed in from error handler.
 
+
+
 pg.init()
 # Get the screen Surface and the clock to limit fps.
 window = pg.display.set_mode((g.SCREEN_WIDTH, g.SCREEN_HEIGHT))
@@ -22,10 +24,11 @@ ball = BallGame(cpath=cpath)
 
 # TEMP
 button = ui.Button(fnUp=cpath/"images/b1.png", fnDown=cpath/"images/b2.png", x=300, y=300)
-#
-
+mainfont = cpath/'objs/VT323-Regular.ttf'
+t =  ui.SimpleText(window, (0, 100), f" :: Shin Megami Tensei is a cool game :: ", cls.BLACK, mainfont)
 
 def eventHandler():
+    global fonts, z
     '''Placeholder for handling events (Input)'''
     for event in pg.event.get():
         # Hit the 'X' at the top bar.
@@ -55,8 +58,7 @@ def draw():
     window.fill(cls.LIGHT_GRAY)
     ball.drawBall(window)
     button.draw(window)
-
-
+    t.draw()
 def gameLoop():
     '''
     Main Game looop for this test application.
