@@ -9,6 +9,7 @@ sys.path.insert(1, str(cpath/'logger'))
 
 import pygameglobals as g
 import colors as cls
+import uiobjs as ui
 
 from ballGame import BallDrag as BallGame # Simple UI test games Im using to find reusable code to build
 from errLog import logError # Logs errors passed in from error handler.
@@ -18,6 +19,10 @@ pg.init()
 window = pg.display.set_mode((g.SCREEN_WIDTH, g.SCREEN_HEIGHT))
 clock = pg.time.Clock()
 ball = BallGame(cpath=cpath)
+
+# TEMP
+button = ui.Button(fnUp=cpath/"images/b1.png", fnDown=cpath/"images/b2.png", x=300, y=300)
+#
 
 
 def eventHandler():
@@ -37,6 +42,7 @@ def eventHandler():
 
         # Pass event over to other portions of engine.
         ball.updateBall(event)
+        button.handleEvents(event)
 
 def update():
     '''Placeholder for passing to process logic'''
@@ -48,6 +54,7 @@ def draw():
     # LIGHT_GRAY is essentially our "clear" the screen color.
     window.fill(cls.LIGHT_GRAY)
     ball.drawBall(window)
+    button.draw(window)
 
 
 def gameLoop():

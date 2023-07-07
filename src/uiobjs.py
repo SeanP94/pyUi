@@ -14,25 +14,33 @@ class BStates(Enum):
 
 class Button():
     def __init__(self, fnUp : str, fnDown : str, x : int, y :int, ):
-        
-        
         self.loc = (x, y)
         self.buttonUp = pg.image.load(fnUp)
         self.buttonDown = pg.image.load(fnDown)
         self.state = BStates.IDLE
         self.rect = self.buttonUp.get_rect()
         self.rect.left  = self.loc[0]
-        self.rect.right = self.loc[1]
+        self.rect.top = self.loc[1]
 
     def handleEvents(self, event):
+        """
+        The button events will basically run if somehtings been pressed.
+        The button functionality works if you click on the button and release
+        return True
+
+        Else change state. 
+        Also allows if you press down on the button and release off the button 
+        it does not execute
+        but will return True if you move the mouse back over the button.
         
+        """
         # We dont want to work with it unless it's a type we utilize.
         if event.type not in (pg.MOUSEMOTION, pg.MOUSEBUTTONUP, pg.MOUSEBUTTONDOWN):
             return False
         
         # Get if the variables have collided.
         hasCollided = self.rect.collidepoint(event.pos)
-
+        
         # Move to pressed.
         if (self.state == BStates.IDLE 
                 and event.type == pg.MOUSEBUTTONDOWN
@@ -43,9 +51,23 @@ class Button():
             if event.type == pg.MOUSEBUTTONUP and hasCollided:
                 self.state = BStates.IDLE
                 return True # Button must execute.
+            
+            if event.type == pg.MOUSEMOTION and not hasCollided:
+                self.state == BStates.RELEASED # Hold onto the button press
 
+        elif self.state == BStates.RELEASED:
+            if hasCollided:
+                self.state = BStates.PRESSED
+            elif event == pg.MOUSEBUTTONUP:
+                self.state = BStates.IDLE
 
-        
+        return False
 
-
-
+    def draw(self, surface : pg.surface.Surface):
+        """
+        Determines which button skin to draw.
+        """
+        if self.state == BStates.PRESSED:
+            surface.blit(self.buttonDown, self.loc)
+        else:
+            surface.blit(self.buttonUp, self.loc)
